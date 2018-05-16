@@ -1,0 +1,46 @@
+#Initiating the librariers that we will need
+library(tidyverse)
+library(readxl)
+
+
+
+```{r}
+# Read the Data
+setwd("/Users/jimmy/AnacondaProjects/Data602/Group Project")
+train = read_csv("Train.csv")
+test= read.csv("Test.csv")
+```
+
+```{r}
+# Import the following libraries
+library(tidyverse)
+library(readxl)
+library(rpart)
+library(rpart.plot)
+
+# Step 1 Build the Decision Tree
+set.seed(38475) # For reproducible results
+traintree <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Embarked, method='class',
+data=train)
+                
+
+
+# Step 2 Check the Cross Validation Results with printcp()
+printcp(traintree)
+
+
+
+```
+
+```{r}
+Prediction <- predict(traintree, test, type="class")
+submit <- data.frame(PassengerId = test$PassengerId, Survived = Prediction)
+write.csv(submit, file = "firsttree.csv", row.names = FALSE)
+```
+
+
+
+
+
+
+
